@@ -11,17 +11,50 @@ SELECT * FROM DeptReqSkill;
 
 
 --Which skills are required by each department ?
-INSERT INTO Result (question, value1, value2, value3)
-SELECT  d.DEPT_NAME , s.SKILL_NAME,  NULL 
+INSERT INTO Result ( question,value1, value2, value3)
+SELECT  'Q1', d.DEPT_NAME , s.SKILL_NAME,  NULL 
 FROM DEPARTMENT d 
 JOIN DEPTREQSKILL d2 ON d.DEPARTMENT_ID = d2.DEPARTMENT_ID
 JOIN SKILL s ON d2.SKILL_ID = s.SKILL_ID;
 
 
+-- List skills per emloyee !
+INSERT INTO RESULT(question,value1,value2,value3) 
+SELECT 'Q2',e.LASTNAME, s.SKILL_ID, e3.CERTIFICATE 
+FROM EMPLOYEE e 
+JOIN EMPLOYEESKILL e3  ON e.EMPLOYEE_ID = e3.EMPLOYEE_ID 
+JOIN SKILL s ON  e3.SKILL_ID  = s.SKILL_ID;
+
+-- How many different skills does each area require ? (The strings BB. name a
+INSERT INTO RESULT(question,value1,value2) 
+SELECT 	'Q3	',
+d.DEPT_NAME,
+COUNT(d2.SKILL_ID) 
+FROM DEPARTMENT d 	
+JOIN DEPTREQSKILL d2 ON d.DEPARTMENT_ID = d2.DEPARTMENT_ID
+GROUP BY d.DEPT_NAME ;
 
 
+-- Which employee could work where ?
+INSERT INTO RESULT(question,value1,value2,value3) 
+SELECT 'Q4',e.LASTNAME,
+s.SKILL_NAME ,
+d.DEPT_NAME
+FROM EMPLOYEE e
+JOIN EMPLOYEESKILL e2 ON e2.EMPLOYEE_ID = e.EMPLOYEE_ID 
+JOIN SKILL s ON e2.SKILL_ID = s.SKILL_ID 
+JOIN DEPTREQSKILL d2 ON d2.SKILL_ID = s.SKILL_ID 
+JOIN DEPARTMENT d ON d2.DEPARTMENT_ID = d.DEPARTMENT_ID ;
+	
+SELECT * FROM Employee;
 
+SELECT * FROM Skill;
 
+SELECT * FROM EmployeeSkill;
+
+SELECT * FROM DEPARTMENT;
+
+SELECT * FROM DeptReqSkill;
 
 
 
